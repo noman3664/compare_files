@@ -48,8 +48,9 @@ if old_file and new_file:
         st.download_button("Download Merged CSV", csv, "updated_shopify.csv", "text/csv")
 
         # Optional preview
-        st.subheader("Preview (first 10 rows)")
-        st.dataframe(final_df.head(10))
+        # st.subheader("Preview (first 10 rows)")
+        # st.dataframe(final_df.head(10))
 
 else:
     st.info("Please upload both OLD and NEW Shopify CSV files to proceed.")
+
