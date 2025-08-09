@@ -30,13 +30,13 @@ if old_file and new_file:
     else:
         # Combine both files
         # Remove old rows that have the same Handle + Option1 Value (to simulate a unique product variant)
-        merge_cols = ['Handle', 'Option1 Value'] if 'Option1 Value' in old_df.columns else ['Handle']
+        merge_cols = ['Handle', 'Option1 Value'] if 'Option1 Value' in old_df.columns else ['Handle'] 
 
         # Drop overlapping rows in old_df
-        merged_df = old_df.copy()
-        merged_df = merged_df[~merged_df[merge_cols].apply(tuple, axis=1).isin(
-            new_df[merge_cols].apply(tuple, axis=1)
-        )]
+        merged_df = old_df.copy() # Create a copy to avoid modifying the original DataFrame
+
+         # Drop rows with matching Handle + Option1 Value
+        merged_df = merged_df[~merged_df[merge_cols].apply(tuple, axis=1).isin(  new_df[merge_cols].apply(tuple, axis=1))]
 
         # Concatenate the new data (will overwrite duplicates)
         final_df = pd.concat([merged_df, new_df], ignore_index=True)
@@ -45,10 +45,10 @@ if old_file and new_file:
 
         # Download merged CSV
         csv = final_df.to_csv(index=False).encode('utf-8')
-        st.download_button("📥 Download Merged CSV", csv, "updated_shopify.csv", "text/csv")
+        st.download_button("Download Merged CSV", csv, "updated_shopify.csv", "text/csv")
 
         # Optional preview
-        st.subheader("🔍 Preview (first 10 rows)")
+        st.subheader("Preview (first 10 rows)")
         st.dataframe(final_df.head(10))
 
 else:
